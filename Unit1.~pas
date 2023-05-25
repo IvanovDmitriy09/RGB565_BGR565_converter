@@ -4,22 +4,29 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan;
+  Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan, Jpeg, ExtDlgs;
 
 type
   TForm1 = class(TForm)
     Button1: TButton;
     Memo1: TMemo;
     Button2: TButton;
-    OpenDialog1: TOpenDialog;
     Image1: TImage;
     Button3: TButton;
     Button4: TButton;
     XPManifest1: TXPManifest;
+    ColorDialog1: TColorDialog;
+    Button5: TButton;
+    OpenPictureDialog1: TOpenPictureDialog;
+    Label1: TLabel;
+    CheckBox1: TCheckBox;
+    SaveDialog1: TSaveDialog;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,9 +41,16 @@ implementation
 {$R *.dfm}
 
 procedure TForm1.Button1Click(Sender: TObject);
+var bp:TBitmap;
+size: integer;
 begin
-if opendialog1.Execute then
-image1.Picture.LoadFromFile(opendialog1.FileName);
+if openpicturedialog1.Execute then
+image1.Picture.LoadFromFile(openpicturedialog1.FileName);
+bp:=TBitmap.Create;
+bp.Assign(image1.picture.Graphic);
+image1.picture.Bitmap.Assign(bp);
+size:= image1.Picture.Height*image1.Picture.Width*2;
+label1.Caption:=inttostr(image1.picture.height)+'x'+inttostr(image1.picture.Width)+' = '+ inttostr(size)+' Байт ('+floattostrf(size/1024, ffFixed, 4, 2)+' КБайт)';
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -44,6 +58,15 @@ var r,g,b, i, n, bgr565: integer;
 c:LongInt;
 s: string;
 begin
+if checkbox1.Checked then
+if savedialog1.Execute then
+begin
+  AssignFile(myFile, savedialog1.FileName);
+  ReWrite(myFile);
+
+end;
+
+
 memo1.Clear;
 for n:=0 to image1.Picture.height-1 do
   begin
@@ -55,6 +78,7 @@ for n:=0 to image1.Picture.height-1 do
     b:=round(GetBValue(c)*31/255);
     bgr565:=(b shl 11)or(g shl 5)or(r);
     s:=s+'0x'+inttohex(hi(bgr565),1)+', 0x'+inttohex(lo(bgr565),1)+', ';
+
     end;
     memo1.Lines.Add(s);
     s:='';
@@ -66,12 +90,13 @@ var r,g,b, i, n, rgb565: integer;
 c:LongInt;
 s: string;
 begin
+
 memo1.Clear;
 for n:=0 to image1.Picture.height-1 do
   begin
   for i:=0 to image1.Picture.width-1 do
     begin
-    c:=ColorToRGB(image1.Picture.Bitmap.Canvas.Pixels[i, n]);
+    c:=ColorToRGB(image1.Canvas.Pixels[i, n]);
     r:=round(GetRValue(c)*31/255);
     g:=round(GetGValue(c)*63/255);
     b:=round(GetBValue(c)*31/255);
@@ -87,6 +112,41 @@ procedure TForm1.Button4Click(Sender: TObject);
 begin
 memo1.SelectAll;
 memo1.CopyToClipboard;
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+var r,g,b, rgb565, bgr565: integer;
+c:LongInt;
+begin
+if colordialog1.Execute then
+    begin
+    c:=ColorToRGB(colordialog1.Color);
+    r:=round(GetRValue(c)*31/255);
+    g:=round(GetGValue(c)*63/255);
+    b:=round(GetBValue(c)*31/255);
+    rgb565:=(r shl 11)or(g shl 5)or(b);
+    bgr565:=(b shl 11)or(g shl 5)or(r);
+    memo1.Text:='color rgb565: 0x'+inttohex(rgb565,1);
+    memo1.lines.add('color bgr565: 0x'+inttohex(bgr565,1));
+    end;
+end;
+
+procedure TForm1.Button6Click(Sender: TObject);
+var
+  myWord, myWord1, myWord2 : byte;
+  myFile : File of byte;
+
+begin
+  // ??????? ??????? ???????? ???? Test.bin ??? ??????
+  AssignFile(myFile, 'Test.bin');
+  ReWrite(myFile);
+
+  // ?????? ?????????? ????? Word ?????? ? ????
+  myWord1 := 45;
+  myWord2 := 56;
+  Write(myFile, myWord1);
+  Write(myFile, myWord2);
+  CloseFile(myFile);
 end;
 
 end.
