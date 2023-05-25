@@ -16,13 +16,10 @@ type
     Button3: TButton;
     Button4: TButton;
     XPManifest1: TXPManifest;
-    ColorDialog1: TColorDialog;
-    Button5: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
-    procedure Button5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -90,24 +87,6 @@ procedure TForm1.Button4Click(Sender: TObject);
 begin
 memo1.SelectAll;
 memo1.CopyToClipboard;
-end;
-
-procedure TForm1.Button5Click(Sender: TObject);
-var r,g,b, i, n, rgb565, bgr565: integer;
-c:LongInt;
-s: string;
-begin
-if colordialog1.Execute then
-    begin
-    c:=ColorToRGB(colordialog1.Color);
-    r:=round(GetRValue(c)*31/255);
-    g:=round(GetGValue(c)*63/255);
-    b:=round(GetBValue(c)*31/255);
-    rgb565:=(r shl 11)or(g shl 5)or(b);
-    bgr565:=(b shl 11)or(g shl 5)or(r);
-    memo1.Text:='color rgb565: 0x'+inttohex(rgb565,1);
-    memo1.lines.add('color bgr565: 0x'+inttohex(bgr565,1));
-    end;
 end;
 
 end.
