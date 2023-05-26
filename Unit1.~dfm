@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 719
-  Top = 530
+  Left = 261
+  Top = 417
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'RGB565/BGR565 converter'
-  ClientHeight = 348
-  ClientWidth = 795
+  ClientHeight = 349
+  ClientWidth = 1338
   Color = clGrayText
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,6 +15,7 @@ object Form1: TForm1
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
@@ -45,6 +46,36 @@ object Form1: TForm1
     ScrollBars = ssBoth
     TabOrder = 0
   end
+  object StringGrid1: TStringGrid
+    Left = 800
+    Top = 0
+    Width = 529
+    Height = 321
+    Color = clHighlightText
+    ColCount = 17
+    FixedColor = clActiveCaption
+    RowCount = 2
+    ScrollBars = ssVertical
+    TabOrder = 1
+    ColWidths = (
+      64
+      34
+      33
+      30
+      29
+      26
+      27
+      26
+      27
+      26
+      27
+      27
+      30
+      26
+      26
+      26
+      25)
+  end
   object XPManifest1: TXPManifest
     Left = 48
     Top = 24
@@ -69,6 +100,7 @@ object Form1: TForm1
       OnClick = Afqk1Click
       object N1: TMenuItem
         Caption = #1054#1090#1082#1088#1099#1090#1100
+        ShortCut = 16463
         OnClick = N1Click
       end
       object N2: TMenuItem
@@ -77,6 +109,7 @@ object Form1: TForm1
       object N3: TMenuItem
         Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
         Enabled = False
+        ShortCut = 16467
         OnClick = N3Click
       end
       object N9: TMenuItem
@@ -91,10 +124,12 @@ object Form1: TForm1
       Caption = #1055#1088#1072#1074#1082#1072
       object N6: TMenuItem
         Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
+        ShortCut = 16451
         OnClick = N6Click
       end
       object N7: TMenuItem
         Caption = #1054#1095#1080#1089#1090#1080#1090#1100
+        ShortCut = 16430
         OnClick = N7Click
       end
     end
@@ -104,6 +139,7 @@ object Form1: TForm1
       object BGR5651: TMenuItem
         Caption = 'BGR565'
         Enabled = False
+        ShortCut = 16450
         OnClick = BGR5651Click
       end
       object RGB5651: TMenuItem
@@ -112,6 +148,7 @@ object Form1: TForm1
       object RGB5652: TMenuItem
         Caption = 'RGB565'
         Enabled = False
+        ShortCut = 16466
         OnClick = RGB5652Click
       end
       object N11: TMenuItem
@@ -124,6 +161,7 @@ object Form1: TForm1
     end
     object N8: TMenuItem
       Caption = #1054' '#1087#1088#1086#1075#1088#1072#1084#1084#1077
+      ShortCut = 112
       OnClick = N8Click
     end
   end

@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 946
-  Top = 306
+  Left = 261
+  Top = 417
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'RGB565/BGR565 converter'
-  ClientHeight = 348
-  ClientWidth = 474
+  ClientHeight = 349
+  ClientWidth = 1375
   Color = clGrayText
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,6 +15,7 @@ object Form1: TForm1
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
@@ -44,6 +45,36 @@ object Form1: TForm1
     ReadOnly = True
     ScrollBars = ssBoth
     TabOrder = 0
+  end
+  object StringGrid1: TStringGrid
+    Left = 800
+    Top = 0
+    Width = 553
+    Height = 321
+    Color = clHighlightText
+    ColCount = 17
+    FixedColor = clActiveCaption
+    RowCount = 2
+    ScrollBars = ssVertical
+    TabOrder = 1
+    ColWidths = (
+      64
+      34
+      33
+      30
+      29
+      26
+      27
+      26
+      27
+      26
+      27
+      27
+      30
+      26
+      26
+      26
+      25)
   end
   object XPManifest1: TXPManifest
     Left = 48

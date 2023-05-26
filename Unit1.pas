@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan, Jpeg, ExtDlgs, Menus, Grids;
+  Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan, Jpeg, ExtDlgs, Menus, Grids, math;
 
 type
   TForm1 = class(TForm)
@@ -32,6 +32,7 @@ type
     N10: TMenuItem;
     N11: TMenuItem;
     N12: TMenuItem;
+    StringGrid1: TStringGrid;
     procedure N1Click(Sender: TObject);
     procedure N6Click(Sender: TObject);
     procedure N7Click(Sender: TObject);
@@ -43,6 +44,7 @@ type
     procedure N8Click(Sender: TObject);
     procedure N3Click(Sender: TObject);
     procedure N5Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -59,7 +61,7 @@ implementation
 
 procedure TForm1.N1Click(Sender: TObject);
 var bp:TBitmap;
-size: integer;
+size, i: integer;
 begin
 if openpicturedialog1.Execute then
 begin
@@ -71,7 +73,12 @@ image1.picture.Bitmap.Assign(bp);
 size:= image1.Picture.Height*image1.Picture.Width*2;
 label1.Caption:=inttostr(image1.picture.height)+'x'+inttostr(image1.picture.Width)+' = '+ inttostr(size)+' Байт ('+floattostrf(size/1024, ffFixed, 4, 2)+' КБайт)';
 stat:='img';
-form1.Width:=800;
+//form1.Width:=1400;
+stringgrid1.RowCount:=ceil(size/16)+1;
+for i:=0 to stringgrid1.RowCount-1 do
+begin
+stringgrid1.Cells[0, i+1]:=inttohex(i+10,1);
+end;
 end;
 end;
 
@@ -237,6 +244,17 @@ begin
 BGR5651.Enabled:=false;
 RGB5652.Enabled:=false;
 end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+var
+i: byte;
+begin
+for i:=0 to 15 do
+begin
+stringgrid1.Cells[i+1, 0]:=inttohex(i,1);
+end;
+
 end;
 
 end.
