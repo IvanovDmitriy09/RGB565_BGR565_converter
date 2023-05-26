@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan, Jpeg, ExtDlgs, Menus;
+  Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan, Jpeg, ExtDlgs, Menus, Grids;
 
 type
   TForm1 = class(TForm)
@@ -42,6 +42,7 @@ type
     procedure Afqk1Click(Sender: TObject);
     procedure N8Click(Sender: TObject);
     procedure N3Click(Sender: TObject);
+    procedure N5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,6 +62,7 @@ var bp:TBitmap;
 size: integer;
 begin
 if openpicturedialog1.Execute then
+begin
 memo1.Clear;
 image1.Picture.LoadFromFile(openpicturedialog1.FileName);
 bp:=TBitmap.Create;
@@ -68,6 +70,9 @@ bp.Assign(image1.picture.Graphic);
 image1.picture.Bitmap.Assign(bp);
 size:= image1.Picture.Height*image1.Picture.Width*2;
 label1.Caption:=inttostr(image1.picture.height)+'x'+inttostr(image1.picture.Width)+' = '+ inttostr(size)+' Байт ('+floattostrf(size/1024, ffFixed, 4, 2)+' КБайт)';
+stat:='img';
+form1.Width:=800;
+end;
 end;
 
 procedure TForm1.N6Click(Sender: TObject);
@@ -79,6 +84,7 @@ end;
 procedure TForm1.N7Click(Sender: TObject);
 begin
 memo1.Clear;
+stat:='img';
 end;
 
 procedure TForm1.N10Click(Sender: TObject);
@@ -130,6 +136,7 @@ for n:=0 to image1.Picture.height-1 do
     memo1.Lines.Add(s);
     s:='';
   end;
+
 end;
 
 procedure TForm1.N12Click(Sender: TObject);
@@ -146,32 +153,39 @@ if colordialog1.Execute then
     bgr565:=(b shl 11)or(g shl 5)or(r);
     memo1.Text:='color rgb565: 0x'+inttohex(rgb565,1);
     memo1.lines.add('color bgr565: 0x'+inttohex(bgr565,1));
+    image1.Picture:= nil;
+    label1.Caption:='';
+    stat:='';
+    form1.Width:=479;
     end;
+
 end;
 
 procedure TForm1.Afqk1Click(Sender: TObject);
 begin
-if stat='' then
-N3.Enabled:=false;
 if (stat='bgr') or (stat='rgb') then
-N3.Enabled:=true;
+N3.Enabled:=true else
+N3.Enabled:=false;
 end;
 
 procedure TForm1.N8Click(Sender: TObject);
 begin
-showmessage('by Dmitriy Ivanov 2023');
+showmessage('Дмитрий Иванов 2023');
 end;
 
 procedure TForm1.N3Click(Sender: TObject);
 var
   byte1, byte2: byte;
   fs: TFileStream;
-  r,g,b, i, n, bgr565: integer;
+  r,g,b, i, n, bgr565, rgb565: integer;
 c:LongInt;
 begin
 if savedialog1.Execute then
+begin
 fs := TFileStream.Create(savedialog1.FileName, fmCreate or fmOpenReadWrite or fmShareDenyWrite);
 fs.Seek(0, soFromBeginning);
+if stat='bgr' then
+begin
 for n:=0 to image1.Picture.height-1 do
   begin
   for i:=0 to image1.Picture.width-1 do
@@ -187,9 +201,42 @@ for n:=0 to image1.Picture.height-1 do
     fs.Write(byte2,sizeof(byte2));
     end;
   end;
-
   fs.Free;
+end else if stat='rgb' then
+begin
+for n:=0 to image1.Picture.height-1 do
+  begin
+  for i:=0 to image1.Picture.width-1 do
+    begin
+    c:=ColorToRGB(image1.Canvas.Pixels[i, n]);
+    r:=round(GetRValue(c)*31/255);
+    g:=round(GetGValue(c)*63/255);
+    b:=round(GetBValue(c)*31/255);
+    rgb565:=(r shl 11)or(g shl 5)or(b);
+    byte1:=hi(rgb565);
+    byte2:=lo(rgb565);
+    fs.Write(byte1,sizeof(byte1));
+    fs.Write(byte2,sizeof(byte2));
+    end;
+  end;
+  fs.Free;
+end;
 
+end;
+
+end;
+
+procedure TForm1.N5Click(Sender: TObject);
+begin
+if (stat='img')or (stat='rgb') or (stat='bgr') then
+begin
+BGR5651.Enabled:=true;
+RGB5652.Enabled:=true;
+end else
+begin
+BGR5651.Enabled:=false;
+RGB5652.Enabled:=false;
+end;
 end;
 
 end.
