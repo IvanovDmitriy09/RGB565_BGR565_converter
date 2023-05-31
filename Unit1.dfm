@@ -52,6 +52,7 @@ object Form1: TForm1
         Width = 553
         Height = 293
         Align = alClient
+        Color = 16776176
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
@@ -66,9 +67,9 @@ object Form1: TForm1
         Width = 553
         Height = 293
         Align = alClient
-        Color = clHighlightText
+        Color = 16776176
         ColCount = 17
-        FixedColor = clActiveCaption
+        FixedColor = clMoneyGreen
         RowCount = 2
         ScrollBars = ssVertical
         TabOrder = 0
@@ -191,9 +192,5 @@ object Form1: TForm1
       ShortCut = 112
       OnClick = N8Click
     end
-  end
-  object XPManifest2: TXPManifest
-    Left = 252
-    Top = 136
   end
 end

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan, Jpeg, ExtDlgs, Menus, Grids, math,
-  ComCtrls;
+  ComCtrls, JvExComCtrls, JvComCtrls;
 
 type
   TForm1 = class(TForm)
@@ -40,7 +40,6 @@ type
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
-    XPManifest2: TXPManifest;
     procedure N1Click(Sender: TObject);
     procedure N6Click(Sender: TObject);
     procedure N7Click(Sender: TObject);
@@ -130,8 +129,8 @@ for n:=0 to image1.Picture.height-1 do
     g:=round(GetGValue(c)*63/255);
     b:=round(GetBValue(c)*31/255);
     rgb565:=(r shl 11)or(g shl 5)or(b);
-    sh:=inttohex(hi(rgb565),1);
-    sl:=inttohex(lo(rgb565),1);
+    sh:=inttohex(hi(rgb565),2);
+    sl:=inttohex(lo(rgb565),2);
 
     stringgrid1.Cells[x,y]:=sh;
     stringgrid1.Cells[x+1,y]:=sl;
@@ -166,8 +165,8 @@ for n:=0 to image1.Picture.height-1 do
     g:=round(GetGValue(c)*63/255);
     b:=round(GetBValue(c)*31/255);
     bgr565:=(b shl 11)or(g shl 5)or(r);
-    sh:=inttohex(hi(bgr565),1);
-    sl:=inttohex(lo(bgr565),1);
+    sh:=inttohex(hi(bgr565),2);
+    sl:=inttohex(lo(bgr565),2);
     stringgrid1.Cells[x,y]:=sh;
     stringgrid1.Cells[x+1,y]:=sl;
     x:=x+2;
@@ -201,7 +200,7 @@ if colordialog1.Execute then
     image1.Picture:= nil;
     label1.Caption:='';
     stat:='';
-    form1.Width:=566;
+    form1.Width:=567;
     end;
 
 end;

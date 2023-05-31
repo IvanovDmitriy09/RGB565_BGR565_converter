@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 261
-  Top = 417
+  Left = 304
+  Top = 323
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'RGB565/BGR565 converter'
-  ClientHeight = 349
-  ClientWidth = 1375
+  ClientHeight = 351
+  ClientWidth = 561
   Color = clGrayText
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
-    Left = 472
+    Left = 560
     Top = 0
     Width = 321
     Height = 321
@@ -37,44 +37,62 @@ object Form1: TForm1
     Font.Style = []
     ParentFont = False
   end
-  object Memo1: TMemo
+  object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 473
+    Width = 561
     Height = 321
-    ReadOnly = True
-    ScrollBars = ssBoth
+    ActivePage = TabSheet1
     TabOrder = 0
-  end
-  object StringGrid1: TStringGrid
-    Left = 800
-    Top = 0
-    Width = 553
-    Height = 321
-    Color = clHighlightText
-    ColCount = 17
-    FixedColor = clActiveCaption
-    RowCount = 2
-    ScrollBars = ssVertical
-    TabOrder = 1
-    ColWidths = (
-      64
-      34
-      33
-      30
-      29
-      26
-      27
-      26
-      27
-      26
-      27
-      27
-      30
-      26
-      26
-      26
-      25)
+    object TabSheet1: TTabSheet
+      Caption = #1058#1077#1082#1089#1090
+      object Memo1: TMemo
+        Left = 0
+        Top = 0
+        Width = 553
+        Height = 293
+        Align = alClient
+        Color = 16776176
+        ReadOnly = True
+        ScrollBars = ssBoth
+        TabOrder = 0
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'HEX'
+      ImageIndex = 1
+      object StringGrid1: TStringGrid
+        Left = 0
+        Top = 0
+        Width = 553
+        Height = 293
+        Align = alClient
+        Color = 16776176
+        ColCount = 17
+        FixedColor = clMoneyGreen
+        RowCount = 2
+        ScrollBars = ssVertical
+        TabOrder = 0
+        ColWidths = (
+          64
+          34
+          31
+          30
+          29
+          26
+          27
+          26
+          27
+          26
+          27
+          27
+          30
+          26
+          26
+          26
+          26)
+      end
+    end
   end
   object XPManifest1: TXPManifest
     Left = 48
@@ -107,10 +125,20 @@ object Form1: TForm1
         Caption = '-'
       end
       object N3: TMenuItem
-        Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
+        Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1082#1072#1082'...'
         Enabled = False
         ShortCut = 16467
-        OnClick = N3Click
+        object bin1: TMenuItem
+          Caption = '.bin'
+          OnClick = bin1Click
+        end
+        object txt1: TMenuItem
+          Caption = '-'
+        end
+        object txt2: TMenuItem
+          Caption = '.txt'
+          OnClick = txt2Click
+        end
       end
       object N9: TMenuItem
         Caption = '-'
