@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan, Jpeg, ExtDlgs, Menus, Grids, math;
+  Dialogs, StdCtrls, ExtCtrls, ClipBrd, XPMan, Jpeg, ExtDlgs, Menus, Grids, math,
+  ComCtrls;
 
 type
   TForm1 = class(TForm)
@@ -33,6 +34,13 @@ type
     N11: TMenuItem;
     N12: TMenuItem;
     StringGrid1: TStringGrid;
+    bin1: TMenuItem;
+    txt1: TMenuItem;
+    txt2: TMenuItem;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    XPManifest2: TXPManifest;
     procedure N1Click(Sender: TObject);
     procedure N6Click(Sender: TObject);
     procedure N7Click(Sender: TObject);
@@ -42,9 +50,10 @@ type
     procedure N12Click(Sender: TObject);
     procedure Afqk1Click(Sender: TObject);
     procedure N8Click(Sender: TObject);
-    procedure N3Click(Sender: TObject);
     procedure N5Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure bin1Click(Sender: TObject);
+    procedure txt2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -73,12 +82,16 @@ image1.picture.Bitmap.Assign(bp);
 size:= image1.Picture.Height*image1.Picture.Width*2;
 label1.Caption:=inttostr(image1.picture.height)+'x'+inttostr(image1.picture.Width)+' = '+ inttostr(size)+' Байт ('+floattostrf(size/1024, ffFixed, 4, 2)+' КБайт)';
 stat:='img';
-//form1.Width:=1400;
+form1.Width:=888;
 stringgrid1.RowCount:=ceil(size/16)+1;
+
 for i:=0 to stringgrid1.RowCount-1 do
 begin
-stringgrid1.Cells[0, i+1]:=inttohex(i+10,1);
+
+stringgrid1.Cells[0, i+1]:=inttohex(i*16,1);
+
 end;
+
 end;
 end;
 
@@ -100,12 +113,14 @@ application.Terminate;
 end;
 
 procedure TForm1.RGB5652Click(Sender: TObject);
-var r,g,b, i, n, rgb565: integer;
+var r,g,b, i, n, rgb565, x, y: integer;
 c:LongInt;
-s: string;
+s, sh, sl: string;
 begin
 stat:='rgb';
 memo1.Clear;
+x:=1;
+y:=1;
 for n:=0 to image1.Picture.height-1 do
   begin
   for i:=0 to image1.Picture.width-1 do
@@ -115,7 +130,18 @@ for n:=0 to image1.Picture.height-1 do
     g:=round(GetGValue(c)*63/255);
     b:=round(GetBValue(c)*31/255);
     rgb565:=(r shl 11)or(g shl 5)or(b);
-    s:=s+'0x'+inttohex(hi(rgb565),1)+', 0x'+inttohex(lo(rgb565),1)+', ';
+    sh:=inttohex(hi(rgb565),1);
+    sl:=inttohex(lo(rgb565),1);
+
+    stringgrid1.Cells[x,y]:=sh;
+    stringgrid1.Cells[x+1,y]:=sl;
+    x:=x+2;
+    if x=17 then
+      begin
+      x:=1;
+      y:=y+1;
+      end;
+    s:=s+'0x'+sh+', 0x'+sl+', ';
     end;
     memo1.Lines.Add(s);
     s:='';
@@ -123,12 +149,14 @@ for n:=0 to image1.Picture.height-1 do
 end;
 
 procedure TForm1.BGR5651Click(Sender: TObject);
-var r,g,b, i, n, bgr565: integer;
+var r,g,b, i, n, bgr565, x, y: integer;
 c:LongInt;
-s: string;
+s, sh, sl: string;
 begin
 stat:='bgr';
 memo1.Clear;
+x:=1;
+y:=1;
 for n:=0 to image1.Picture.height-1 do
   begin
   for i:=0 to image1.Picture.width-1 do
@@ -138,7 +166,17 @@ for n:=0 to image1.Picture.height-1 do
     g:=round(GetGValue(c)*63/255);
     b:=round(GetBValue(c)*31/255);
     bgr565:=(b shl 11)or(g shl 5)or(r);
-    s:=s+'0x'+inttohex(hi(bgr565),1)+', 0x'+inttohex(lo(bgr565),1)+', ';
+    sh:=inttohex(hi(bgr565),1);
+    sl:=inttohex(lo(bgr565),1);
+    stringgrid1.Cells[x,y]:=sh;
+    stringgrid1.Cells[x+1,y]:=sl;
+    x:=x+2;
+    if x=17 then
+    begin
+    x:=1;
+    y:=y+1;
+    end;
+    s:=s+'0x'+sh+', 0x'+sl+', ';
     end;
     memo1.Lines.Add(s);
     s:='';
@@ -163,7 +201,7 @@ if colordialog1.Execute then
     image1.Picture:= nil;
     label1.Caption:='';
     stat:='';
-    form1.Width:=479;
+    form1.Width:=566;
     end;
 
 end;
@@ -180,16 +218,42 @@ begin
 showmessage('Дмитрий Иванов 2023');
 end;
 
-procedure TForm1.N3Click(Sender: TObject);
+
+procedure TForm1.N5Click(Sender: TObject);
+begin
+if (stat='img')or (stat='rgb') or (stat='bgr') then
+begin
+BGR5651.Enabled:=true;
+RGB5652.Enabled:=true;
+end else
+begin
+BGR5651.Enabled:=false;
+RGB5652.Enabled:=false;
+end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+var
+i: byte;
+begin
+for i:=0 to 15 do
+begin
+stringgrid1.Cells[i+1, 0]:=inttohex(i,1);
+end;
+
+end;
+
+procedure TForm1.bin1Click(Sender: TObject);
 var
   byte1, byte2: byte;
   fs: TFileStream;
   r,g,b, i, n, bgr565, rgb565: integer;
 c:LongInt;
 begin
+savedialog1.Filter:='Двоичный файл (*.bin)|*.bin';
 if savedialog1.Execute then
 begin
-fs := TFileStream.Create(savedialog1.FileName, fmCreate or fmOpenReadWrite or fmShareDenyWrite);
+fs := TFileStream.Create(savedialog1.FileName+'.bin', fmCreate or fmOpenReadWrite or fmShareDenyWrite);
 fs.Seek(0, soFromBeginning);
 if stat='bgr' then
 begin
@@ -230,31 +294,13 @@ for n:=0 to image1.Picture.height-1 do
 end;
 
 end;
-
 end;
 
-procedure TForm1.N5Click(Sender: TObject);
+procedure TForm1.txt2Click(Sender: TObject);
 begin
-if (stat='img')or (stat='rgb') or (stat='bgr') then
-begin
-BGR5651.Enabled:=true;
-RGB5652.Enabled:=true;
-end else
-begin
-BGR5651.Enabled:=false;
-RGB5652.Enabled:=false;
-end;
-end;
-
-procedure TForm1.FormCreate(Sender: TObject);
-var
-i: byte;
-begin
-for i:=0 to 15 do
-begin
-stringgrid1.Cells[i+1, 0]:=inttohex(i,1);
-end;
-
+savedialog1.Filter:='Текстовый файл (*.txt)|*.txt';
+if savedialog1.Execute then
+memo1.Lines.SaveToFile(savedialog1.FileName+'.txt');
 end;
 
 end.

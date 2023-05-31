@@ -5,7 +5,7 @@ object Form1: TForm1
   BorderStyle = bsSingle
   Caption = 'RGB565/BGR565 converter'
   ClientHeight = 349
-  ClientWidth = 1338
+  ClientWidth = 1375
   Color = clGrayText
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -49,7 +49,7 @@ object Form1: TForm1
   object StringGrid1: TStringGrid
     Left = 800
     Top = 0
-    Width = 529
+    Width = 553
     Height = 321
     Color = clHighlightText
     ColCount = 17
