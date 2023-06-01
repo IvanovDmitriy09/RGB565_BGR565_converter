@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 304
-  Top = 323
+  Left = 838
+  Top = 479
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'RGB565/BGR565 converter'
@@ -42,7 +42,7 @@ object Form1: TForm1
     Top = 0
     Width = 561
     Height = 321
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = #1058#1077#1082#1089#1090
@@ -71,6 +71,12 @@ object Form1: TForm1
         ColCount = 17
         FixedColor = clMoneyGreen
         RowCount = 2
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         ScrollBars = ssVertical
         TabOrder = 0
         ColWidths = (
@@ -78,7 +84,7 @@ object Form1: TForm1
           34
           31
           30
-          29
+          28
           26
           27
           26
@@ -95,24 +101,24 @@ object Form1: TForm1
     end
   end
   object XPManifest1: TXPManifest
-    Left = 48
-    Top = 24
+    Left = 104
+    Top = 160
   end
   object ColorDialog1: TColorDialog
-    Left = 80
-    Top = 24
+    Left = 136
+    Top = 160
   end
   object OpenPictureDialog1: TOpenPictureDialog
-    Left = 16
-    Top = 24
+    Left = 72
+    Top = 160
   end
   object SaveDialog1: TSaveDialog
-    Left = 112
-    Top = 24
+    Left = 168
+    Top = 160
   end
   object MainMenu1: TMainMenu
-    Left = 144
-    Top = 24
+    Left = 200
+    Top = 160
     object Afqk1: TMenuItem
       Caption = #1060#1072#1081#1083
       OnClick = Afqk1Click
